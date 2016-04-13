@@ -22,7 +22,6 @@ public class AppointmentBookTest {
 		
 		AppointmentBook myBook = new AppointmentBook();
 
-		FileReader fr = null;
 		Scanner scanner = null;
 		try {
 			JFileChooser fc = new JFileChooser("H:/workspace/ch14");
@@ -35,17 +34,23 @@ public class AppointmentBookTest {
 			scanner = new Scanner(filePath);
 			
 			while(scanner.hasNextLine()){
-				myBook.add(scanner.nextLine(), scanner.nextLine());
-				//not secure
+				String tempDate = scanner.nextLine();
+				String tempDesc;
+				if(scanner.hasNextLine()){
+					tempDesc = scanner.nextLine();
+					myBook.add(tempDate, tempDesc);
+				} else {
+					break;
+				}
 			}
 		} catch (IOException | ParseException e) {
-			e.printStackTrace();
+			
 		} finally {
-			try {
-				fr.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			scanner.close();
+		}
+		
+		for(Appointment a : myBook.list){
+			System.out.println(a.toString());
 		}
 	}
 }
